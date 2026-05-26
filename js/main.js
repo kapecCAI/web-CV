@@ -35,8 +35,8 @@ const LANG = {
     nav_contact:       'Contact',
     hero_available:    'Available for projects',
     hero_tagline:      'Vibecoder and something more…',
-    hero_cta:          ‘See my work’,
-    about_quote:       ‘”I don\’t talk about what I can do.<br>I show it.”’,
+    hero_cta:          'See my work',
+    about_quote:       '”I don\'t talk about what I can do.<br>I show it.”',
     about_cta:         'Learn more',
     contact_heading:   "Let's talk",
     contact_sub:       'Got a project in mind? Write me.',
@@ -48,13 +48,13 @@ const LANG = {
     // Drawer — about
     da_label:   'About',
     da_heading: 'Joel Pacheco',
-    da_bio:     "I'm Joel, a vibecoder. I turn ideas into websites that work and look good. I don’t need everything explained—I catch on fast, execute fast, and if I spot something that could be better, I say so.",
+    da_bio:     "I'm Joel, a vibecoder. I turn ideas into websites that work and look good. I don't need everything explained—I catch on fast, execute fast, and if I spot something that could be better, I say so.",
     da_t1_h:    'Vibecoder',
     da_t1_p:    'I build functional, well-designed websites starting from an idea. No fluff.',
     da_t2_h:    'Proactive',
-    da_t2_p:    "I don’t wait to be told what to do. I spot the problem, propose the solution, and execute.",
+    da_t2_p:    "I don't wait to be told what to do. I spot the problem, propose the solution, and execute.",
     da_t3_h:    'Results-driven',
-    da_t3_p:    "The goal isn’t the code. The goal is a project that works and creates real value.",
+    da_t3_p:    "The goal isn't the code. The goal is a project that works and creates real value.",
   },
 };
 
@@ -198,6 +198,9 @@ function scaleProjectIframe(section) {
 }
 
 function initScrollObserver() {
+  // Signal CSS that JS is running — sections only hide if this class exists
+  document.body.classList.add('js-ready');
+
   const sections = document.querySelectorAll('.snap-sec:not(#sec-hero)');
   const root     = document.getElementById('scroll-wrap');
 
