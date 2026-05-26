@@ -120,13 +120,14 @@ function applyLang(lang, animated) {
 ============================================================ */
 function finishIntro() {
   const box = document.getElementById('intro');
-  const app = document.getElementById('app');
-  if (box.style.display === 'none') return; // already done
+  if (box.dataset.done) return; // already done
+  box.dataset.done = '1';
   box.style.transition = 'opacity 400ms ease';
   box.style.opacity    = '0';
+  box.style.pointerEvents = 'none';
   setTimeout(() => {
     box.style.display = 'none';
-    app.style.opacity = '1';
+    document.body.classList.add('intro-done'); // triggers hero CSS animations
     animateHero();
   }, 420);
 }

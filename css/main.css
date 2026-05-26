@@ -69,6 +69,12 @@ a {
   align-items: center;
   justify-content: center;
   background: var(--text);
+  /* CSS fallback: auto-hide after 5s even if JS fails */
+  animation: intro-auto-hide 0.4s ease 5s forwards;
+}
+
+@keyframes intro-auto-hide {
+  to { opacity: 0; pointer-events: none; }
 }
 
 #greeting {
@@ -89,7 +95,7 @@ a {
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  opacity: 0;
+  /* No opacity:0 — app is always visible; #intro covers it as overlay */
 }
 
 /* ============================================================
@@ -548,20 +554,26 @@ a {
 }
 
 /* ============================================================
-   HERO ENTRANCE — CSS-based (reliable in any tab state)
-   The app starts hidden; when #app gets opacity:1 the hero
-   elements cascade in via CSS animations.
+   HERO ENTRANCE
+   Two paths:
+   1. JS runs → body.intro-done added at ~3s → fast cascade
+   2. JS fails → CSS fallback at 5.4s (after intro-auto-hide)
+   animation-fill-mode:both keeps elements at opacity:0 during
+   the delay, so nothing flashes before its cue.
 ============================================================ */
-#app {
-  /* Elements animate only after intro sets opacity:1 */
-}
 
-/* Hero elements hidden before app reveals */
-#app[style*="opacity: 1"] .hero-first  { animation: hero-in 0.85s var(--ease-out) 0.1s  both; }
-#app[style*="opacity: 1"] .hero-last   { animation: hero-in 0.85s var(--ease-out) 0.22s both; }
-#app[style*="opacity: 1"] .hero-eyebrow { animation: fade-up 0.7s var(--ease-out) 0.42s both; }
-#app[style*="opacity: 1"] .hero-tag    { animation: fade-up 0.7s var(--ease-out) 0.56s both; }
-#app[style*="opacity: 1"] .btn-primary { animation: fade-up 0.7s var(--ease-out) 0.70s both; }
+/* Fallback: if JS never adds .intro-done, animate after 5.4s */
+.hero-first   { animation: hero-in 0.85s var(--ease-out) 5.40s both; }
+.hero-last    { animation: hero-in 0.85s var(--ease-out) 5.52s both; }
+.hero-eyebrow { animation: fade-up 0.7s  var(--ease-out) 5.65s both; }
+.hero-tag     { animation: fade-up 0.7s  var(--ease-out) 5.80s both; }
+
+/* With JS: override to fast cascade as soon as intro is done */
+body.intro-done .hero-first   { animation: hero-in 0.85s var(--ease-out) 0.10s both; }
+body.intro-done .hero-last    { animation: hero-in 0.85s var(--ease-out) 0.22s both; }
+body.intro-done .hero-eyebrow { animation: fade-up 0.7s  var(--ease-out) 0.42s both; }
+body.intro-done .hero-tag     { animation: fade-up 0.7s  var(--ease-out) 0.56s both; }
+body.intro-done .btn-primary  { animation: fade-up 0.7s  var(--ease-out) 0.70s both; }
 
 @keyframes hero-in {
   from { opacity: 0; transform: translateY(44px); }
